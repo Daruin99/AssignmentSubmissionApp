@@ -22,6 +22,7 @@ public class User implements UserDetails {
     @Column(name = "user_name")
     private String username;
     @Column(name = "password")
+    @JsonIgnore
     private String password;
     @Column(name = "cohort_start_date")
     private LocalDate cohortStartDate;

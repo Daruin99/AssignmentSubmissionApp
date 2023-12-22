@@ -12,6 +12,9 @@ public class Assignment {
     private int id;
 
 
+    @Column(name = "number")
+
+    private int number;
 
     @Column(name = "status")
     private String status;
@@ -30,11 +33,18 @@ public class Assignment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Assignment(String status, String githubUrl, String branch, String codeReviewUrl) {
-        this.status = status;
-        this.githubUrl = githubUrl;
-        this.branch = branch;
-        this.codeReviewUrl = codeReviewUrl;
+    @ManyToOne
+    private User codeReviewer;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Assignment() {
     }
 
     public String getStatus() {
@@ -69,11 +79,27 @@ public class Assignment {
         this.codeReviewUrl = codeReviewUrl;
     }
 
-    public User getAssignedTo() {
-        return user;
+    public int getId() {
+        return id;
     }
 
-    public void setAssignedTo(User user) {
-        this.user = user;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public User getCodeReviewer() {
+        return codeReviewer;
+    }
+
+    public void setCodeReviewer(User codeReviewer) {
+        this.codeReviewer = codeReviewer;
     }
 }

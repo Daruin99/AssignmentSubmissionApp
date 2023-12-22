@@ -3,6 +3,7 @@ package com.Abdelrahman.AssignmentSubmissionApp.controller;
 import com.Abdelrahman.AssignmentSubmissionApp.dto.AuthCredentialsRequest;
 import com.Abdelrahman.AssignmentSubmissionApp.entity.User;
 import com.Abdelrahman.AssignmentSubmissionApp.util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpHeaders;
@@ -12,10 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -31,6 +30,7 @@ public class LogInController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest request) {
+
         try {
             Authentication authenticate = authenticationManager
                     .authenticate(
@@ -48,6 +48,15 @@ public class LogInController {
                     ).body(user);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @GetMapping("validate")
+    public ResponseEntity<?> validate(@RequestParam String token, @AuthenticationPrincipal User user) {
+        try {
+            boolean isValid = jwtUtil.validateToken(token,user);
+            return ResponseEntity.ok(isValid);
+        } catch (ExpiredJwtException e) {
+            return ResponseEntity.ok(false);
         }
     }
 }
