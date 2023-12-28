@@ -1,7 +1,7 @@
 # Assignment Submission & Review App
 
 ## Overview
-This full stack application allows students to submit assignments and get them reviewed by code reviewers in a coding bootcamp. It provides a dashboard for students and Code reviewers to track their assignments and notifications for updates.
+This full-stack application allows students to submit assignments and get them reviewed by code reviewers in a coding boot camp. It provides a dashboard for students and Code reviewers that they can log in to it using their bootcamp credentials to track their assignments and notifications for updates.
 
 ## Features
 - Student dashboard with due assignments, submission status, and review updates.
