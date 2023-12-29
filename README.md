@@ -21,5 +21,7 @@ This full-stack application allows students to submit assignments and get them r
 1. Clone the repository.
 2. Install dependencies.
 3. Run Docker Compose to start the application.
-
+4. Insert Manually 2 users with valid Email addresses in the user_name column in users table and insert in the authority column in the authorities table with ROLE_STUDENT and ROLE_CODE_REVIEWER to be able to log 
+   in and test the app.
+   
 
