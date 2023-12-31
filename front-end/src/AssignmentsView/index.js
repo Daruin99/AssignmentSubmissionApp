@@ -35,10 +35,12 @@ const AssignmentView = () => {
   const [assignmentStatuses, setAssignmentStatuses] = useState([]);
 
   const prevAssignmentValue = useRef(assignment);
-  const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+  const urlRegex = /^https:\/\/github\.com\//;
   const [isValidUrl, setIsValidUrl] = useState(
     urlRegex.test(assignment.githubUrl)
   );
+
+  const [isValidName, setIsValidName] = useState(false);
 
   function updateAssignment(props, values) {
     const newAssignment = { ...assignment };
@@ -46,25 +48,31 @@ const AssignmentView = () => {
       newAssignment[prop] = values[index];
     });
     setAssignment(newAssignment);
-    console.log(props[0])
+    console.log(props[0]);
+    console.log(props[1]);
+    console.log(newAssignment);
+
     if (props[0] === "githubUrl") {
       setIsValidUrl(urlRegex.test(values[0]));
+    }
+    if (props[1] === "name") {
+      setIsValidName(true);
     }
   }
 
   function save(status) {
-    console.log(assignment);
-    if (isValidUrl) {
+    console.log("url is " + isValidUrl)
+    console.log("name is " + isValidName)
+    if (isValidUrl && isValidName) {
       if (assignment.status !== status) {
-        updateAssignment(
-          ["status", "name"],
-          [status, assignmentEnums[assignment.number - 1].assignmentName]
-        );
+        updateAssignment(["status"], [status]);
       } else {
         persist();
       }
-    } else {
+    } else if (!isValidUrl) {
       alert("Enter correct URL!");
+    } else {
+      alert("Select an assignment!")
     }
   }
 
@@ -136,7 +144,13 @@ const AssignmentView = () => {
                       : "Select an Assignment"
                   }
                   onSelect={(selectedElement) => {
-                    updateAssignment(["number", "name"], [selectedElement,  assignmentEnums[selectedElement- 1].assignmentName]);
+                    updateAssignment(
+                      ["number", "name"],
+                      [
+                        selectedElement,
+                        assignmentEnums[selectedElement - 1].assignmentName,
+                      ]
+                    );
                   }}
                   disabled={isEditing}
                 >
